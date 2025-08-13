@@ -4,9 +4,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 public class Main {
     public static String addres = "C:\\Users\\User\\OneDrive\\Desktop\\task\\output";
     public static LocalDate localDate = LocalDate.now();
+
     public static void main(String[] args) throws IOException {
         reader();
         System.out.println("welcome to task manager!");
@@ -81,6 +83,7 @@ public class Main {
         writer.close();
         System.out.println("Task Added !");
     }
+
     public static void viewAllTasks() throws IOException {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         List<String[]> rows = new ArrayList<>();
@@ -90,7 +93,7 @@ public class Main {
         }
         for (String[] row : rows) {
             System.out.println("id:" + row[0]);
-             LocalDate localDate2 = LocalDate.parse(row[3], dateTimeFormatter);
+            LocalDate localDate2 = LocalDate.parse(row[3], dateTimeFormatter);
             if (localDate.isAfter(localDate2))
                 System.out.println("title:" + row[1] + "   DELAYED!");
             else System.out.println("title:" + row[1]);
@@ -103,8 +106,8 @@ public class Main {
     }
 
     public static void updateTask() throws IOException {
-        List<String[]> rows=reader();
-        BufferedWriter writer=new BufferedWriter(new FileWriter(addres));
+        List<String[]> rows = reader();
+        BufferedWriter writer = new BufferedWriter(new FileWriter(addres));
         System.out.println("enter the id of the task that you want to change");
         Scanner scanner = new Scanner(System.in);
         int numberOftask = scanner.nextInt();
@@ -119,55 +122,64 @@ public class Main {
             case 1: {
                 System.out.println("enter the new title");
                 String s = scanner.next();
-            for (String[] row:rows){
-                if (Integer.parseInt(row[0])==numberOftask){
-                    row[1]=s;
+                for (String[] row : rows) {
+                    if (Integer.parseInt(row[0]) == numberOftask) {
+                        row[1] = s;
+                    }
                 }
-            }
                 break;
             }
             case 2: {
                 System.out.println("enter the new description");
                 String s = scanner.next();
-                for (String[] row:rows)
-                    if (Integer.parseInt(row[0])==numberOftask)
-                        row[2]=s;
+                for (String[] row : rows)
+                    if (Integer.parseInt(row[0]) == numberOftask)
+                        row[2] = s;
                 break;
             }
             case 3: {
                 System.out.println("enter the new date");
                 String s = scanner.next();
-                for (String[] row:rows)
-                    if (Integer.parseInt(row[0])==numberOftask)
-                        row[3]=s;
+                for (String[] row : rows)
+                    if (Integer.parseInt(row[0]) == numberOftask)
+                        row[3] = s;
                 break;
             }
             case 4: {
                 String[] newtask = null;
                 System.out.println("enter the new status");
                 String s = scanner.next().toLowerCase();
-                for (String[] row:rows)
-                    if (Integer.parseInt(row[0])==numberOftask){
-                        row[4]=s;
-                if (s.equals("done")){
-                    String newDate="";
-                    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                    LocalDate localDate2 = LocalDate.parse(row[3], dateTimeFormatter);
-                    if (row[5].equals("daily")){localDate2 = localDate2.plusDays(1);newDate=localDate2.format(dateTimeFormatter).toString();}
-                    if (row[5].equals("weekly")){localDate2 = localDate2.plusWeeks(1);newDate=localDate2.toString();}
-                    if (row[5].equals("monthly")){localDate2 = localDate2.plusMonths(1);newDate=localDate2.toString();}
-                         int id=getId();
-                        String title = row[1];
-                        String description = row[2];
-                        String date = newDate;
-                        String status = "pending";
-                        String recurrence = row[5];
-                     newtask=new String[]{String.valueOf(id),title,description,date,status,recurrence};
+                for (String[] row : rows)
+                    if (Integer.parseInt(row[0]) == numberOftask) {
+                        row[4] = s;
+                        if (s.equals("done")) {
+                            String newDate = "";
+                            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                            LocalDate localDate2 = LocalDate.parse(row[3], dateTimeFormatter);
+                            if (row[5].equals("daily")) {
+                                localDate2 = localDate2.plusDays(1);
+                                newDate = localDate2.format(dateTimeFormatter).toString();
+                            }
+                            if (row[5].equals("weekly")) {
+                                localDate2 = localDate2.plusWeeks(1);
+                                newDate = localDate2.toString();
+                            }
+                            if (row[5].equals("monthly")) {
+                                localDate2 = localDate2.plusMonths(1);
+                                newDate = localDate2.toString();
+                            }
+                            int id = getId();
+                            String title = row[1];
+                            String description = row[2];
+                            String date = newDate;
+                            String status = "pending";
+                            String recurrence = row[5];
+                            newtask = new String[]{String.valueOf(id), title, description, date, status, recurrence};
 
-                }
+                        }
 
                     }
-                if(newtask!=null){
+                if (newtask != null) {
                     rows.add(newtask);
                     System.out.println("Task Added !");
                 }
@@ -176,15 +188,15 @@ public class Main {
             case 5: {
                 System.out.println("enter the new recurrence");
                 String s = scanner.next();
-                for (String[] row:rows)
-                    if (Integer.parseInt(row[0])==numberOftask)
-                        row[5]=s;
+                for (String[] row : rows)
+                    if (Integer.parseInt(row[0]) == numberOftask)
+                        row[5] = s;
                 break;
             }
         }
-        for (String [] row:rows) {
+        for (String[] row : rows) {
             writer.write(String.join(",", row));
-        writer.newLine();
+            writer.newLine();
         }
         writer.close();
 
