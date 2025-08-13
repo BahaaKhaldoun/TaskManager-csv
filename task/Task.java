@@ -73,11 +73,11 @@ public class Main {
         BufferedWriter writer = new BufferedWriter(new FileWriter(addres, true));
         System.out.println("enter task title,description,date,status and recurrence");
         Scanner scanner = new Scanner(System.in);
-        String title = scanner.next();
-        String description = scanner.next();
-        String date = scanner.next();
-        String status = scanner.next();
-        String recurrence = scanner.next();
+        String title = scanner.nextLine();
+        String description = scanner.nextLine();
+        String date = scanner.nextLine();
+        String status = scanner.nextLine();
+        String recurrence = scanner.nextLine();
         writer.write(id + "," + title + "," + description + "," + date + "," + status + "," + recurrence);
         writer.newLine();
         writer.close();
@@ -148,7 +148,7 @@ public class Main {
             case 4: {
                 String[] newtask = null;
                 System.out.println("enter the new status");
-                String s = scanner.next().toLowerCase();
+                String s = scanner.nextLine().toLowerCase();
                 for (String[] row : rows)
                     if (Integer.parseInt(row[0]) == numberOftask) {
                         row[4] = s;
@@ -162,11 +162,11 @@ public class Main {
                             }
                             if (row[5].equals("weekly")) {
                                 localDate2 = localDate2.plusWeeks(1);
-                                newDate = localDate2.toString();
+                                newDate = localDate2.format(dateTimeFormatter).toString();
                             }
                             if (row[5].equals("monthly")) {
                                 localDate2 = localDate2.plusMonths(1);
-                                newDate = localDate2.toString();
+                                newDate = localDate2.format(dateTimeFormatter).toString();
                             }
                             int id = getId();
                             String title = row[1];
